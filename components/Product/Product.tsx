@@ -13,6 +13,14 @@ import { Review } from '../Review/Review';
 import { ReviewForm } from '../ReviewForm/ReviewForm';
 import { motion } from 'framer-motion';
 
+const getImageSrc = (domain, img) => {
+	if (/https?:\/\//.test(img)) {
+		return img;
+	}
+
+	return domain + img;
+};
+
 export const Product = motion(forwardRef(({ product, className, ...props }: ProductProps, ref: ForwardedRef<HTMLDivElement>): JSX.Element => {
 	const [isReviewOpened, setIsReviewOpened] = useState<boolean>(false);
 	const reviewRef = useRef<HTMLDivElement>(null);
@@ -29,14 +37,14 @@ export const Product = motion(forwardRef(({ product, className, ...props }: Prod
 			block: 'start'
 		});
 		reviewRef.current?.focus();
-	};
+	};	
 
 	return (
 		<div className={className} {...props} ref={ref}>
 			<Card className={styles.product}>
 				<div className={styles.logo}>
 					<Image
-						src={process.env.NEXT_PUBLIC_DOMAIN + product.image}
+						src={getImageSrc(process.env.NEXT_PUBLIC_DOMAIN, product.image)}
 						alt={product.title}
 						width={70}
 						height={70}
